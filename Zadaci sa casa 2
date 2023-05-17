@@ -1,0 +1,392 @@
+# Zadatak 1 - kreira tabelu
+import psycopg2 as psycopg2
+
+try:
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+
+    com='''CREATE TABLE DOSTAVLJAC(
+    ID_DOSTAVLJACA SERIAL PRIMARY KEY NOT NULL,
+    IME_PREZIME VARCHAR(30) NOT NULL
+    );
+    '''
+    cursor.execute(com)
+    print("Table created successfully")
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+# *****************************************************************************************************************
+
+# Zadatak 2 
+
+import psycopg2 as psycopg2
+try:
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+    cursor=con.cursor()
+    l=['''INSERT INTO DOSTAVLJAC (IME_PREZIME) VALUES ('Veljko Krstic')
+    ''','''INSERT INTO DOSTAVLJAC (IME_PREZIME) VALUES ('Marko Milic')
+    ''','''INSERT INTO DOSTAVLJAC (IME_PREZIME) VALUES ('Sofija Nikic')
+    ''','''INSERT INTO DOSTAVLJAC (IME_PREZIME) VALUES ('Matija Radic')
+    ''']
+
+    for i in l:
+        cursor.execute(i)
+    
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+
+# *****************************************************************************************************************
+
+# Zadatak 3 
+import psycopg2 as psycopg2
+
+def funkcija_all():
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+    
+    cursor.execute("SELECT * FROM DOSTAVLJAC")
+
+    result=cursor.fetchall()
+
+    cursor.close()
+    con.close()
+    print(result)
+
+    
+
+def funkcija_many():
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+    
+    cursor.execute("SELECT * FROM DOSTAVLJAC")
+    
+    result=cursor.fetchmany(2)
+    print(result)
+    
+    result=cursor.fetchmany(2)
+
+    cursor.close()
+    con.close()
+    print(result)
+    
+
+def funkcija_one():
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+    
+    cursor.execute("SELECT * FROM DOSTAVLJAC")
+    
+    result=cursor.fetchone()
+
+    cursor.close()
+    con.close()
+    print(result)
+
+funkcija_all()
+print("="*50)
+
+funkcija_many()
+print("="*50)
+
+funkcija_one()
+print("="*50)
+
+# *****************************************************************************************************************
+
+# Zadatak 4 
+
+import psycopg2 as psycopg2
+
+try:
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+
+    com='''CREATE TABLE PORUDZBINA(
+    ID_PORUDZBINE SERIAL NOT NULL,
+    IME_PREZIME VARCHAR(30) NOT NULL,
+    ADRESA VARCHAR(30) NOT NULL,
+    RESTORAN VARCHAR(30) NOT NULL,
+    IZNOS FLOAT NOT NULL,
+    ID_DOSTAVLJACA INTEGER,
+    PRIMARY KEY(ID_PORUDZBINE),
+    FOREIGN KEY (ID_DOSTAVLJACA) REFERENCES DOSTAVLJAC(ID_DOSTAVLJACA)
+    );
+    '''
+    cursor.execute(com)
+    print("Table created successfully")
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+
+# *****************************************************************************************************************
+# Zadatak 5 
+import psycopg2 as psycopg2
+
+try:
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+
+    l=['''INSERT INTO PORUDZBINA (IME_PREZIME,ADRESA,RESTORAN,IZNOS) VALUES 
+    ('Nikola Nikolic','Milutina Milankovica 14','McDonalds',1700)
+    ''','''INSERT INTO PORUDZBINA (IME_PREZIME,ADRESA,RESTORAN,IZNOS) VALUES 
+    ('Milenko Maric','Nikole Pasica 168','GOSushi',3500)
+    ''','''INSERT INTO PORUDZBINA (IME_PREZIME,ADRESA,RESTORAN,IZNOS) VALUES 
+    ('Nikolina Stevic','Glavna 15','Protein Bar',150)
+    ''','''INSERT INTO PORUDZBINA (IME_PREZIME,ADRESA,RESTORAN,IZNOS) VALUES 
+    ('Veljko Krstic','Obilicev Venac kod garaze','KFC',2200)
+    '''
+    ]
+
+    for i in l:
+        cursor.execute(i)
+    
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+
+# *****************************************************************************************************************
+# Zadatak 6
+import psycopg2 as psycopg2
+
+def funkcija_all():
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+    
+    cursor.execute("SELECT * FROM PORUDZBINA")
+
+    result=cursor.fetchall()
+
+    cursor.close()
+    con.close()
+    print(result)
+   
+funkcija_all()
+
+# *****************************************************************************************************************
+# Zadatak 7
+import psycopg2 as psycopg2
+
+try:
+    con=psycopg2.connect(
+        database='Glovo',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+
+    com='''
+    UPDATE PORUDZBINA
+    SET ID_DOSTAVLJACA=1
+    WHERE ID_PORUDZBINE=1
+    '''
+    cursor.execute(com)
+    print("Table updated successfully")
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+
+# *****************************************************************************************************************
+
+# Zadatak 8
+##1.Zadatak
+##Kreirati tabelu i bazu, bazu kroz pg, a tabelu kroz python
+
+##3.Zadatak
+##Iz tabele recept vratiti sve podatke i ispisati ih u txt fajlu sa sledecim izgledom
+##ID_Recepta: 1
+##Naziv: Corba
+##Cena: 800
+##Porcije: 4
+
+import psycopg2 as psycopg2
+
+try:
+    con=psycopg2.connect(
+        database='kuvar',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+
+    com='''CREATE TABLE RECEPT(
+    ID_RECEPT SERIAL PRIMARY KEY NOT NULL,
+    NAZIV_RECEPT VARCHAR(20) NOT NULL,
+    CENA FLOAT NOT NULL,
+    PORCIJE INTEGER NOT NULL
+    );
+    '''
+    cursor.execute(com)
+    print("Table created successfully")
+    con.commit()
+
+except (Exception,psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    cursor.close()
+    con.close()
+
+
+# *****************************************************************************************************************
+
+# Zadatak 9
+##2.Zadatak
+##Kreirati funkcija koja trazi 3 argumenta (naziv_recepta,cena,porcije)
+##i korisnik unosi sva tri argumenta kroz terminal, funkcija se poziva i dodaje taj recept
+##u bazu podataka
+import psycopg2 as psycopg2
+
+naziv=input("Unesite naziv recepta ")
+cena=float(input('Unesite cenu '))
+porcije=int(input("Unesite broj porcija "))
+
+
+def dodaj_u_kuvar(naziv,cena,porcije):
+    try:
+        con=psycopg2.connect(
+            database='kuvar',
+            user='postgres',
+            port='5432',
+            password='itoip',
+            host='localhost'
+        )
+
+        cursor=con.cursor()
+
+        com='''INSERT INTO RECEPT (NAZIV_RECEPT,CENA,PORCIJE) VALUES ('{}',{},{})
+        '''.format(naziv,cena,porcije)
+
+        cursor.execute(com)
+    
+        con.commit()
+
+    except (Exception,psycopg2.Error) as e:
+        print("Error:",e)
+
+    finally:
+        cursor.close()
+        con.close()
+
+dodaj_u_kuvar(naziv,cena,porcije)
+
+# *****************************************************************************************************************
+
+# Zadatak 10
+import psycopg2 as psycopg2
+
+def funkcija_all():
+    con=psycopg2.connect(
+        database='kuvar',
+        user='postgres',
+        port='5432',
+        password='itoip',
+        host='localhost'
+    )
+
+    cursor=con.cursor()
+    cursor.execute("SELECT * FROM RECEPT")
+    result=cursor.fetchall()
+    cursor.close()
+    con.close()
+    return result
+
+l=funkcija_all()
+print(l)
+f=open('recepti.txt','a')
+
+for i in l:
+    print("ID Recepta: {}".format(i[0]),file=f)
+    print("Naziv: {}".format(i[1]),file=f)
+    print("Cena: {}".format(i[2]),file=f)
+    print("Porcija: {}".format(i[3]),file=f)
+f.close()
+
+
+# *****************************************************************************************************************
