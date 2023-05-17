@@ -1,0 +1,88 @@
+# ZADATAK 1
+import psycopg2 as psycopg2
+
+con=psycopg2.connect(
+database='PRODAVNICA',
+user='postgres',
+password='itoip',
+host='localhost',
+port='5432'
+)
+
+cursor_obj=con.cursor()
+
+cursor_obj.execute('SELECT * FROM PROIZVOD')
+result=cursor_obj.fetchall()
+
+con.close()
+
+print(result)
+
+for i in result:
+    print("="*10)
+    print("ID Proizvoda:",i[0])
+    print("Naziv:",i[1])
+    print("Cena:",i[2])
+    print("Kolicina:",i[3])
+#************************************************************************************************
+# ZADATAK 2
+import psycopg2 as psycopg2
+try:
+    con=psycopg2.connect(database='PRODAVNICA',
+                         user='postgres',
+                         password='itoip',
+                         host='localhost',
+                         port='5432')
+    
+    cursor=con.cursor()
+    cursor.execute('''SELECT * 
+                    FROM PROIZVOD 
+                    WHERE NAZIV LIKE 'P%' 
+                    ''')
+    result=cursor.fetchall()
+
+    for i in result:
+        print("ID Proizvoda:",i[0])
+        print("Naziv:",i[1])
+        print("Cena:",i[2])
+        print("Kolicina:",i[3])
+
+except (Exception, psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    if con:
+        con.close()
+#************************************************************************************************
+
+# ZADATAK 3
+import psycopg2 as psycopg2
+
+try:
+    s=input("Unesite pocetno slovo proizvoda: ")
+    con=psycopg2.connect(database='PRODAVNICA',
+                         user='postgres',
+                         password='itoip',
+                         host='localhost',
+                         port='5432')
+    
+    cursor=con.cursor()
+    cursor.execute('''SELECT * 
+                    FROM PROIZVOD 
+                    WHERE NAZIV LIKE '{}%' 
+                    '''.format(s))
+    result=cursor.fetchall()
+
+    for i in result:
+        print("ID Proizvoda:",i[0])
+        print("Naziv:",i[1])
+        print("Cena:",i[2])
+        print("Kolicina:",i[3])
+
+except (Exception, psycopg2.Error) as e:
+    print("Error:",e)
+
+finally:
+    if con:
+        con.close()
+#************************************************************************************************
